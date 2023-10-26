@@ -9,24 +9,22 @@ void ImprimirTabuleiro(char tabuleiro[3][3]) {
     }
 }
 
-
-int VerificarVitoriaX(char tabuleiro[3][3]) {
-
+int VerificarVitoria(char tabuleiro[3][3], char jogador) {
+    // Verifica se o jogador venceu nas linhas, colunas e diagonais
     for (int i = 0; i < 3; i++) {
-        if (tabuleiro[i][0] == 'X' && tabuleiro[i][1] == 'X' && tabuleiro[i][2] == 'X') {
-            return 1; 
+        if (tabuleiro[i][0] == jogador && tabuleiro[i][1] == jogador && tabuleiro[i][2] == jogador) {
+            return 1; // Vitória nas linhas
         }
-        if (tabuleiro[0][i] == 'X' && tabuleiro[1][i] == 'X' && tabuleiro[2][i] == 'X') {
-            return 1; 
+        if (tabuleiro[0][i] == jogador && tabuleiro[1][i] == jogador && tabuleiro[2][i] == jogador) {
+            return 1; // Vitória nas colunas
         }
     }
 
-    
-    if (tabuleiro[0][0] == 'X' && tabuleiro[1][1] == 'X' && tabuleiro[2][2] == 'X') {
-        return 1; 
+    if (tabuleiro[0][0] == jogador && tabuleiro[1][1] == jogador && tabuleiro[2][2] == jogador) {
+        return 1; // Vitória na diagonal principal
     }
-    if (tabuleiro[0][2] == 'X' && tabuleiro[1][1] == 'X' && tabuleiro[2][0] == 'X') {
-        return 1; 
+    if (tabuleiro[0][2] == jogador && tabuleiro[1][1] == jogador && tabuleiro[2][0] == jogador) {
+        return 1; // Vitória na diagonal secundária
     }
 
     return 0;
@@ -41,11 +39,12 @@ int main() {
 
     while (jogadas < 9) {
         int linha, coluna;
+        char jogador = (jogadas % 2 == 0) ? 'X' : 'O';
 
         printf("Tabuleiro atual:\n");
         ImprimirTabuleiro(tabuleiro);
 
-        printf("Jogador X, informe a linha (0-2) e a coluna (0-2): ");
+        printf("Jogador %c, informe a linha (0-2) e a coluna (0-2): ", jogador);
         scanf("%d %d", &linha, &coluna);
 
         if (linha < 0 || linha > 2 || coluna < 0 || coluna > 2 || tabuleiro[linha][coluna] != ' ') {
@@ -53,13 +52,13 @@ int main() {
             continue;
         }
 
-        tabuleiro[linha][coluna] = 'X';
+        tabuleiro[linha][coluna] = jogador;
         jogadas++;
 
-        vitoria = VerificarVitoriaX(tabuleiro);
+        vitoria = VerificarVitoria(tabuleiro, jogador);
 
         if (vitoria) {
-            printf("Jogador X venceu!\n");
+            printf("Jogador %c venceu!\n", jogador);
             break;
         }
     }
@@ -73,4 +72,3 @@ int main() {
 
     return 0;
 }
-
